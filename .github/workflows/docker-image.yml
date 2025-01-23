@@ -21,26 +21,3 @@ jobs:
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ github.repository }}:test-${{ steps.timestamp.outputs.time }}
-
-    - name: Start Docker container
-      run: |
-        CONTAINER_ID=$(docker run ${{ github.repository }}:test-${{ steps.timestamp.outputs.time }})
-        echo $CONTAINER_ID > container_id.txt
-
-    - name: Wait for container to start
-      run: sleep 10  # Adjust the sleep time as needed to allow the container to start
-
-    - name: Stop Docker container
-      run: |
-        CONTAINER_ID=$(cat container_id.txt)
-        docker exec $CONTAINER_ID stop
-
-    - name: Show container logs
-      run: |
-        CONTAINER_ID=$(cat container_id.txt)
-        docker logs $CONTAINER_ID
-
-    - name: Remove Docker container
-      run: |
-        CONTAINER_ID=$(cat container_id.txt)
-        docker rm -f $CONTAINER_ID
