@@ -8,16 +8,11 @@ on:
 
 jobs:
 
-  build-and-test:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Set up timestamp
-      id: timestamp
-      run: echo "::set-output name=time::$(date +%s)"
-
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ github.repository }}:test-${{ steps.timestamp.outputs.time }}
+      run: docker build . --file Dockerfile --tag ${{ env.REPO_NAME }}:$(date +%s)

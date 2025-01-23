@@ -1,0 +1,13 @@
+services:
+  fabric-server:
+    image: 24workers/fabrics:latest
+    ports:
+      - "25565:25565"
+      - "25566:25566"
+    environment:
+      # Fabric version 服务端jar包下载地址，默认为1.20.4版本
+      - FABRIC_URL=https://meta.fabricmc.net/v2/versions/loader/1.20.4/0.16.10/1.0.1/server/jar
+    volumes:
+      # 服务端文件夹目录映射
+      - ./fabric-server:/root/mc-server
+      
