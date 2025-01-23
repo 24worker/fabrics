@@ -24,7 +24,7 @@ jobs:
 
     - name: Start Docker container
       run: |
-        CONTAINER_ID=$(docker run -d ${{ github.repository }}:test-${{ steps.timestamp.outputs.time }})
+        CONTAINER_ID=$(docker run ${{ github.repository }}:test-${{ steps.timestamp.outputs.time }})
         echo $CONTAINER_ID > container_id.txt
 
     - name: Wait for container to start
