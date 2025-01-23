@@ -8,19 +8,26 @@ on:
 
 jobs:
 
-  build-and-test:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-
+    - name: Set up timestamp
+      id: timestamp
+      run: echo "::set-output name=time::$(date +%s)"
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ github.repository }}:test-$(date +%s)
+      run: docker build . --file Dockerfile --tag ${{ github.repository }}:test-${{ steps.timestamp.outputs.time }}
 
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
     - name: Start Docker container
       run: |
-        CONTAINER_ID=$(docker run -d ${{ github.repository }}:test-$(date +%s))
+        CONTAINER_ID=$(docker run -d ${{ github.repository }}:test-${{ needs.build.outputs.time }})
         echo $CONTAINER_ID > container_id.txt
 
     - name: Wait for container to start
