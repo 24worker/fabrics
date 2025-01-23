@@ -9,4 +9,6 @@ RUN curl -o fabric-server.jar https://meta.fabricmc.net/v2/versions/loader/1.20.
 
 RUN sed -i 's/false/true/g' ./eula.txt
 
+RUN java -jar fabric-server.jar
+
 CMD ["java", "-jar", "fabric-server.jar"]
